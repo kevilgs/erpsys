@@ -1,174 +1,122 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.google.gson.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.google.gson.reflect.TypeToken"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.stream.*"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<link
-	href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css"
-	rel="stylesheet">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-	rel="stylesheet">
-
-<style>
-body {
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-	background-color: #f8f9fa;
-}
-
-.sidebar {
-	background-color: #3B1E54;
-	color: white;
-	height: 100vh;
-	position: sticky;
-	top: 0;
-	overflow-y: auto;
-}
-
-.sidebar .nav-link {
-	color: white;
-	font-size: 16px;
-	margin-bottom: 10px;
-	transition: background 0.3s ease;
-}
-
-.sidebar .nav-link:hover, .sidebar .nav-link.active {
-	background-color: #D4BEE4;
-	border-radius: 5px;
-	color: #EEEEEE;
-}
-
-
-.card {
-	border: none;
-	border-radius: 10px;
-	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-	transition: transform 0.3s ease-in-out;
-}
-
-.card:hover {
-	transform: translateY(-5px);
-}
-
-
-.table-container {
-    max-height: 445px;
-    overflow-y: auto;
-    border: 1px solid #dee2e6;
-    border-radius: 0.25rem;
-}
-
-.table-container .table {
-    margin-bottom: 0;
-}
-
-.table-container thead th {
-    position: sticky;
-    top: 0;
-    background-color: #f8f9fa;
-    z-index: 1;
-}
-
-.table-responsive {
-    min-height: 300px;
-}
-
-.error-message {
-    color: #dc3545;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-.class-badge {
-	display: inline-block;
-	padding: 0.25em 0.75em;
-	font-size: 0.875em;
-	font-weight: 600;
-	line-height: 1;
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: baseline;
-	border-radius: 0.25rem;
-}
-
-.class-A {
-	background-color: #d4edda;
-	color: #155724;
-}
-
-.class-B {
-	background-color: #fff3cd;
-	color: #856404;
-}
-
-.class-C {
-	background-color: #f8d7da;
-	color: #721c24;
-}
-/* Cards Section */
-.cards-container {
-	display: flex;
-	gap: 1rem;
-}
-
-.card {
-
-	color: white;
-	flex: 1;
-	border-radius: 10px;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-	padding: 1rem;
-	text-align: center;
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
-	cursor: pointer;
-}
-
-.card:hover {
-	transform: scale(1.05);
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.card i {
-	font-size: 3rem;
-	margin-bottom: 0.5rem;
-}
-
-.card h3 {
-	font-size: 1.5rem;
-	margin-bottom: 0.5rem;
-}
-
-.card p {
-	font-size: 1.8rem;
-	font-weight: bold;
-}
-
-/* Bright Color Variants */
-.total-revenue {
-	background: linear-gradient(135deg, #ff7eb3, #ff758c);
-}
-
-.total-users {
-	background: linear-gradient(135deg, #6a85b6, #bac8e0);
-}
-
-.total-products {
-	background: linear-gradient(135deg, #6decb9, #3cd28d);
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            background-color: #3B1E54;
+            color: white;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+        }
+        .sidebar .nav-link {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 10px;
+            transition: background 0.3s ease;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background-color: #D4BEE4;
+            border-radius: 5px;
+            color: #EEEEEE;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+        }
+        .table-container .table {
+            margin-bottom: 0;
+        }
+        .table-container thead th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            z-index: 1;
+        }
+        .class-badge {
+            display: inline-block;
+            padding: 0.25em 0.75em;
+            font-size: 0.875em;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
+        .class-A { background-color: #d4edda; color: #155724; }
+        .class-B { background-color: #fff3cd; color: #856404; }
+        .class-C { background-color: #f8d7da; color: #721c24; }
+        .cards-container {
+            display: flex;
+            gap: 1rem;
+        }
+        .info-card {
+            color: white;
+            flex: 1;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .info-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .info-card i {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .info-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .info-card p {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        .total-revenue { background: linear-gradient(135deg, #ff7eb3, #ff758c); }
+        .total-users { background: linear-gradient(135deg, #6a85b6, #bac8e0); }
+        .total-products { background: linear-gradient(135deg, #6decb9, #3cd28d); }
+    </style>
 </head>
 <body>
-	<%
+    <%
 	String jsonData = (String) request.getAttribute("salesTrendData");
 	Gson gson = new Gson();
 	JsonArray salesTrendArray = JsonParser.parseString(jsonData).getAsJsonArray();
@@ -291,220 +239,196 @@ body {
 	request.setAttribute("productNames", productNames.toString());
 	request.setAttribute("profitMargins", profitMargins.toString());
 	%>
-<div class="container-fluid">
-		<div class="row">
-			<!-- Sidebar -->
-			<nav class="col-md-3 col-lg-2 sidebar d-flex flex-column p-3">
-				<h4 class="text-center mb-4">Admin Panel</h4>
-				<ul class="nav flex-column">
-					<li class="nav-item"><a class="nav-link active"
-						href="Admin_Dashboard"> <i class="bi bi-speedometer2 me-2"></i>Dashboard
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="UserManagement.jsp"> <i class="bi bi-people me-2"></i>User
-							Management
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="product_management.jsp"> <i class="bi bi-box-seam me-2"></i>Product
-							Management
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="algorithm_monitoring.jsp"> <i class="bi bi-cpu me-2"></i>Algorithm
-							Management
-					</a></li>
-					<li class="nav-item"><a class="nav-link" href="FeedbackServlet">
-							<i class="bi bi-chat-dots me-2"></i>Feedback Management
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="Report_Generation"> <i
-							class="bi bi-file-earmark-text me-2"></i>Report Management
-					</a></li>
-				</ul>
-			</nav>
-			<!-- Main content -->
-			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-				<div
-					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-					<h1 class="h2">Dashboard</h1>
-					<button type="button" class="btn ms-1 btn btn-outline-danger" onclick="window.location.href='login.jsp'">
-    <i class="bi bi-box-arrow-right"></i> Logout
-</button>
-				</div>
-				
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 sidebar d-flex flex-column p-3">
+                <h4 class="text-center mb-4">Admin Panel</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link active" href="Admin_Dashboard"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="UserManagement.jsp"><i class="bi bi-people me-2"></i>User Management</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product_management.jsp"><i class="bi bi-box-seam me-2"></i>Product Management</a></li>
+                    <li class="nav-item"><a class="nav-link" href="algorithm_monitoring.jsp"><i class="bi bi-cpu me-2"></i>Algorithm Management</a></li>
+                    <li class="nav-item"><a class="nav-link" href="FeedbackServlet"><i class="bi bi-chat-dots me-2"></i>Feedback Management</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Report_Generation"><i class="bi bi-file-earmark-text me-2"></i>Report Management</a></li>
+                </ul>
+            </nav>
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <button type="button" class="btn btn-outline-danger" onclick="window.location.href='login.jsp'">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
+                </div>
 
-<!-- Cards Section -->
-				<div class="cards-container d-flex justify-content-between mb-4">
-					<!-- Total Revenue Card -->
-					<div class="card text-center total-revenue">
-						<i class="bx bx-dollar-circle bx-lg"></i>
-						<h3>Total Revenue</h3>
-						<p>$ <%= request.getAttribute("totalRevenue") %></p>
-					</div>
+                <!-- Cards Section -->
+                <div class="cards-container d-flex justify-content-between mb-4">
+                    <div class="info-card total-revenue">
+                        <i class="bx bx-dollar-circle bx-lg"></i>
+                        <h3>Total Revenue</h3>
+                        <p>$<%=request.getAttribute("totalRevenue")%></p>
+                    </div>
+                    <div class="info-card total-users">
+                        <i class="bx bx-user bx-lg"></i>
+                        <h3>Total Users</h3>
+                        <p><%=request.getAttribute("totalUsers")%></p>
+                    </div>
+                    <div class="info-card total-products">
+                        <i class="bx bx-box bx-lg"></i>
+                        <h3>Total Products</h3>
+                        <p><%=request.getAttribute("totalProducts")%></p>
+                    </div>
+                </div>
 
-					<!-- Total Users Card -->
-					<div class="card text-center total-users">
-						<i class="bx bx-user bx-lg"></i>
-						<h3>Total Users</h3>
-						<p><%= request.getAttribute("totalUsers") %></p>
-					</div>
+                <!-- Charts Section -->
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Monthly Sales Trend</h5>
+                                <canvas id="salesTrendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">ABC Classification</h5>
+                                <canvas id="abcChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ABC Classification Table -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">ABC Classification Details</h5>
+                                <div class="mb-3">
+                                    <select id="classFilter" class="form-select">
+                                        <option value="">All Classes</option>
+                                        <%
+                                        // Fetching the "abc" data from request attributes
+                                        String jsonData2 = (String) request.getAttribute("abc_classificationData");
+                                        List<Map<String, String>> resultList = null;
 
-					<!-- Total Products Card -->
-					<div class="card text-center total-products">
-						<i class="bx bx-box bx-lg"></i>
-						<h3>Total Products</h3>
-						<p><%= request.getAttribute("totalProducts") %></p>
-					</div>
-				</div>
-				<!-- Charts Section -->
-				<div class="row">
-					<div class="col-12 mb-4">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Monthly Sales Trend</h5>
-								<canvas id="salesTrendChart"></canvas>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 mb-4">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">ABC Classification</h5>
-								<canvas id="abcChart"></canvas>
-							</div>
-						</div>
-					</div>
-					<!-- ABC Classification Table -->
-					<div class="col-md-6 mb-4">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">ABC Classification Details</h5>
-								<div class="table-container">
-									<%
-                // Fetching the "abc" data from request attributes
-                String jsonData2 = (String) request.getAttribute("abc_classificationData");
-                List<Map<String, String>> resultList = null;
+                                        if (request.getAttribute("abc") != null) {
+                                            jsonData2 = (String) request.getAttribute("abc");
+                                        }
 
-                if (request.getAttribute("abc") != null) {
-                    jsonData2 = (String) request.getAttribute("abc");
-                } else if (request.getAttribute("errorMessage") != null) {
-                    out.print("<div class='error-message'>" + request.getAttribute("errorMessage") + "</div>");
-                }
+                                        if (jsonData2 != null && !jsonData2.isEmpty()) {
+                                            Gson gson2 = new Gson();
 
-                if (!jsonData2.isEmpty()) {
-                    Gson gson2 = new Gson();
+                                            // Parse JSON data into a list of maps
+                                            if (jsonData2.startsWith("{")) {
+                                                Map<String, String> singleResult = gson2.fromJson(jsonData2, Map.class);
+                                                resultList = new ArrayList<>();
+                                                resultList.add(singleResult);
+                                            } else {
+                                                resultList = gson2.fromJson(jsonData2, new TypeToken<List<Map<String, String>>>() {}.getType());
+                                            }
 
-                    // Parse JSON data into a list of maps
-                    if (jsonData2.startsWith("{")) {
-                        Map<String, String> singleResult = gson2.fromJson(jsonData2, Map.class);
-                        resultList = new ArrayList<>();
-                        resultList.add(singleResult);
-                    } else {
-                        resultList = gson2.fromJson(jsonData2, List.class);
-                    }
-                }
+                                            // Extract unique classes
+                                            Set<String> uniqueClasses = resultList.stream().map(row -> row.get("class")).collect(Collectors.toSet());
+                                            for (String className : uniqueClasses) {
+                                        %>
+                                        <option value="<%=className%>">Class <%=className%></option>
+                                        <%
+                                            }
+                                        }
+                                        %>
+                                    </select>
+                                </div>
+                                <div class="table-container">
+                                    <table id="dataTable" class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <%
+                                                if (resultList != null && !resultList.isEmpty()) {
+                                                    // Dynamically create table headers
+                                                    Set<String> keys = resultList.get(0).keySet();
+                                                    for (String key : keys) {
+                                                %>
+                                                <th><%=key%></th>
+                                                <%
+                                                    }
+                                                }
+                                                %>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                            if (resultList != null && !resultList.isEmpty()) {
+                                                // Populate table rows with data
+                                                for (Map<String, String> row : resultList) {
+                                            %>
+                                            <tr data-class="<%=row.get("class")%>">
+                                                <%
+                                                for (String key : row.keySet()) {
+                                                    Object value = row.get(key);
+                                                %>
+                                                <td><%=value != null ? value.toString() : ""%></td>
+                                                <%
+                                                }
+                                                %>
+                                            </tr>
+                                            <%
+                                                }
+                                            } else {
+                                            %>
+                                            <tr>
+                                                <td colspan="100%">No data available to display.</td>
+                                            </tr>
+                                            <%
+                                            }
+                                            %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Demand Forecast</h5>
+                                <canvas id="demandForecastChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Inventory Turnover Ratio</h5>
+                                <canvas id="turnoverChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Product Profit Comparison</h5>
+                                <canvas id="profitChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
 
-                if (resultList != null && !resultList.isEmpty()) {
-                %>
-									<div class="table-responsive">
-										<table class="table table-striped table-hover">
-											<thead>
-												<tr>
-													<%
-                                // Dynamically create table headers
-                                Set<String> keys = resultList.get(0).keySet();
-                                for (String key : keys) {
-                                %>
-													<th><%=key%></th>
-													<%
-                                }
-                                %>
-												</tr>
-											</thead>
-											<tbody>
-												<%
-                            // Populate table rows with data
-                            for (Map<String, String> row : resultList) {
-                            %>
-												<tr>
-													<%
-                                for (String key : row.keySet()) {
-                                    Object value = row.get(key);
-                                %>
-													<td>
-														<%
-                                    if (value instanceof Integer) {
-                                    %> <%=(Integer) value%> <%
-                                    } else {
-                                    %> <%=value.toString()%> <%
-                                    }
-                                    %>
-													</td>
-													<%
-                                }
-                                %>
-												</tr>
-												<%
-                            }
-                            %>
-											</tbody>
-										</table>
-									</div>
-									<%
-                } else {
-                %>
-									<p>No data available to display.</p>
-									<%
-                }
-                %>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 mb-4">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Demand Forecast</h5>
-								<canvas id="demandForecastChart"></canvas>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 mb-4">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Inventory Turnover Ratio</h5>
-								<canvas id="turnoverChart"></canvas>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 mb-4">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Product Profit Comparison</h5>
-								<canvas id="profitChart"></canvas>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-
-			</main>
-		</div>
-	</div>
-
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script>
-	// Sales Trend Chart
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sales Trend Chart
 	const salesTrendCtx = document.getElementById("salesTrendChart").getContext("2d")
 	new Chart(salesTrendCtx, {
 	    type: 'line',
 	    data: {
-	        labels: <%= salesTrendLabels.toString() %>,
+	        labels: <%=salesTrendLabels.toString()%>,
 	        datasets: [{
 	            label: 'Percentage Change',
-	            data: <%= salesTrendData.toString() %>,
+	            data: <%=salesTrendData.toString()%>,
 	            borderColor: 'rgba(75, 192, 192, 1)',
 	            backgroundColor: 'rgba(75, 192, 192, 0.2)',
 	            fill: true,
@@ -541,9 +465,9 @@ body {
 	new Chart(abcCtx, {
 	    type: 'pie',
 	    data: {
-	        labels: <%= abcLabels.toString() %>,
+	        labels: <%=abcLabels.toString()%>,
 	        datasets: [{
-	            data: <%= abcDataPoints.toString() %>,
+	            data: <%=abcDataPoints.toString()%>,
 	            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
 	            hoverOffset: 4
 	        }]
@@ -561,10 +485,10 @@ body {
 	new Chart(demandForecastCtx, {
 	    type: 'bar',
 	    data: {
-	        labels: <%= demandForecastLabels.toString() %>,
+	        labels: <%=demandForecastLabels.toString()%>,
 	        datasets: [{
 	            label: 'Predicted Demand',
-	            data: <%= demandForecastDataPoints.toString() %>,
+	            data: <%=demandForecastDataPoints.toString()%>,
 	            backgroundColor: [
 	                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
 	            ],
@@ -587,10 +511,10 @@ body {
 	new Chart(turnoverCtx, {
 	    type: 'line',
 	    data: {
-	        labels: <%= turnoverYears.toString() %>,
+	        labels: <%=turnoverYears.toString()%>,
 	        datasets: [{
 	            label: 'Turnover Ratio',
-	            data: <%= turnoverRatios.toString() %>,
+	            data: <%=turnoverRatios.toString()%>,
 	            fill: false,
 	            borderColor: '#4BC0C0',
 	            tension: 0.1
@@ -612,10 +536,10 @@ body {
 	new Chart(profitCtx, {
 	    type: 'bar',
 	    data: {
-	        labels: <%= productNames %>,
+	        labels: <%=productNames%>,
 	        datasets: [{
 	            label: 'Profit Margin (%)',
-	            data: <%= profitMargins %>,
+	            data: <%=profitMargins%>,
 	            backgroundColor: [
 	                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'
 	            ],
@@ -637,7 +561,22 @@ body {
 	});
 
 
-	</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const classFilter = document.getElementById('classFilter');
+            const rows = document.querySelectorAll('#dataTable tbody tr');
+
+            classFilter.addEventListener('change', function() {
+                const selectedClass = this.value;
+
+                rows.forEach(row => {
+                    if (selectedClass === '' || row.getAttribute('data-class') === selectedClass) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
-

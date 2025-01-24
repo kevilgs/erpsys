@@ -365,7 +365,7 @@
     // User profile button click handler
     document.querySelector('.btn.ms-1 img[alt="Button Image"]').parentElement.onclick = function(e) {
         e.preventDefault();
-        window.location.href = 'userProfile.jsp';
+        window.location.href = 'UserProfile';
     };
 
     </script>
