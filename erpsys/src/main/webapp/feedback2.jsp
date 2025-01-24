@@ -158,6 +158,10 @@ table thead, table tbody tr {
 				<div
 					class="content-header d-flex justify-content-between align-items-center">
 					<h5 class="mb-0">Welcome, Admin</h5>
+					<button type="button" class="btn ms-1 btn btn-outline-danger" onclick="window.location.href='login.jsp'">
+    <i class="bi bi-box-arrow-right"></i> Logout
+</button>
+					
 				</div>
 				<div class="main-content" id="main-content">
 					<!-- Feedback Table -->
@@ -165,7 +169,7 @@ table thead, table tbody tr {
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
-								<th></th>
+								<th>Serial No</th>
 								<th>User</th>
 								<th>Feedback</th>
 								<th>Rating</th>

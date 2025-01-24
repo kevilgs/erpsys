@@ -52,13 +52,15 @@
         .form-control, .form-select {
             background-color: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #e6d7e0;
+            color: #FFFFFF;
             border-radius: 10px;
         }
         .form-control:focus, .form-select:focus {
             background-color: rgba(255, 255, 255, 0.15);
             border-color: #ffd700;
             box-shadow: 0 0 5px #ffd700;
+             color: #FFFFFF;
+            
         }
         .star-rating i {
             color: #ffd700;
@@ -74,6 +76,7 @@
             font-weight: bold;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+       
     </style>
 </head>
 <body>
@@ -184,33 +187,108 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function openFeedbackModal(productId) {
-            document.getElementById('productId').value = productId;
-            new bootstrap.Modal(document.getElementById('feedbackModal')).show();
+    function openFeedbackModal(productId) {
+        // Reset form when opening modal
+        document.getElementById('productId').value = productId;
+        document.getElementById('ratingInput').value = '';
+        document.getElementById('commentsInput').value = '';
+        
+        // Reset star display
+        const stars = document.querySelectorAll('#starRating i');
+        stars.forEach(star => {
+            star.classList.remove('bi-star-fill');
+            star.classList.add('bi-star');
+        });
+
+        new bootstrap.Modal(document.getElementById('feedbackModal')).show();
+    }
+
+    // Star Rating Interaction
+    document.getElementById('starRating').addEventListener('click', function(e) {
+        if(e.target.matches('i')) {
+            const rating = e.target.dataset.rating;
+            document.getElementById('ratingInput').value = rating;
+            
+            // Update star display
+            const stars = this.getElementsByTagName('i');
+            for(let i = 0; i < stars.length; i++) {
+                stars[i].className = i < rating ? 'bi bi-star-fill' : 'bi bi-star';
+            }
+        }
+    });
+
+    // Form Submission Validation
+    document.querySelector('form[action="SubmitFeedback"]').addEventListener('submit', function(e) {
+        // Get rating and comments
+        const ratingInput = document.getElementById('ratingInput');
+        const commentsInput = this.querySelector('textarea[name="comments"]');
+        
+        // Flag to track validation
+        let isValid = true;
+
+        // Validate Rating
+        if (!ratingInput.value) {
+            // Create or select error message element
+            let ratingErrorEl = document.getElementById('ratingError');
+            if (!ratingErrorEl) {
+                ratingErrorEl = document.createElement('div');
+                ratingErrorEl.id = 'ratingError';
+                ratingErrorEl.className = 'text-danger small mt-2';
+                document.getElementById('starRating').parentNode.appendChild(ratingErrorEl);
+            }
+            ratingErrorEl.textContent = 'Please select a rating';
+            
+            // Highlight star rating area
+            document.getElementById('starRating').classList.add('border', 'border-danger', 'rounded');
+            
+            isValid = false;
+        } else {
+            // Remove error styling if previously added
+            const ratingErrorEl = document.getElementById('ratingError');
+            if (ratingErrorEl) {
+                ratingErrorEl.remove();
+            }
+            document.getElementById('starRating').classList.remove('border', 'border-danger', 'rounded');
         }
 
-        document.getElementById('starRating').addEventListener('click', function(e) {
-            if(e.target.matches('i')) {
-                const rating = e.target.dataset.rating;
-                document.getElementById('ratingInput').value = rating;
-                
-                // Update star display
-                const stars = this.getElementsByTagName('i');
-                for(let i = 0; i < stars.length; i++) {
-                    stars[i].className = i < rating ? 'bi bi-star-fill' : 'bi bi-star';
-                }
+        // Validate Comments
+        if (!commentsInput.value.trim()) {
+            commentsInput.classList.add('is-invalid');
+            
+            // Create or select error message element
+            let commentsErrorEl = commentsInput.nextElementSibling;
+            if (!commentsErrorEl || !commentsErrorEl.classList.contains('invalid-feedback')) {
+                commentsErrorEl = document.createElement('div');
+                commentsErrorEl.className = 'invalid-feedback';
+                commentsInput.parentNode.appendChild(commentsErrorEl);
             }
-        });
+            commentsErrorEl.textContent = 'Please provide comments';
+            
+            isValid = false;
+        } else {
+            commentsInput.classList.remove('is-invalid');
+            commentsInput.classList.add('is-valid');
+        }
 
-        document.getElementById('starRating').addEventListener('mouseover', function(e) {
-            if(e.target.matches('i')) {
-                const rating = e.target.dataset.rating;
-                const stars = this.getElementsByTagName('i');
-                for(let i = 0; i < stars.length; i++) {
-                    stars[i].className = i < rating ? 'bi bi-star-fill' : 'bi bi-star';
-                }
-            }
-        });
-    </script>
+        // Prevent form submission if validation fails
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+
+    // Remove validation errors on user interaction
+    document.getElementById('starRating').addEventListener('click', function() {
+        const ratingErrorEl = document.getElementById('ratingError');
+        if (ratingErrorEl) {
+            ratingErrorEl.remove();
+        }
+        this.classList.remove('border', 'border-danger', 'rounded');
+    });
+
+    document.querySelector('textarea[name="comments"]').addEventListener('input', function() {
+        this.classList.remove('is-invalid');
+        this.classList.remove('is-valid');
+    });
+</script>
 </body>
 </html>

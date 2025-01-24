@@ -34,6 +34,7 @@ public class Register extends HttpServlet {
         pojo.setName(request.getParameter("name"));
         pojo.setPword(password);
         pojo.setRole(request.getParameter("role"));
+
         
         String result = pojo.registerUser(pojo);
         

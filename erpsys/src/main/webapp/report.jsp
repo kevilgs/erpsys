@@ -295,13 +295,20 @@ button:active {
 					</a></li>
 				</ul>
 			</nav>
+			 <div class="mt-auto">
+       
 
+
+					
+				
         <!-- Main Content -->
         <div class="col-12">
+        
           
 
           <!-- Report Generation Section -->
           <div class="main-content" id="main-content">
+          
            <div class="chart-container">
             <label for="algorithmSelect">Select Algorithm:</label>
             <select id="algorithmSelect">

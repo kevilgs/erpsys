@@ -179,6 +179,9 @@ body {
 				<div
 					class="content-header d-flex justify-content-between align-items-center">
 					<h6 class="mb-0">Welcome, Admin</h6>
+					<button type="button" class="btn ms-1 btn btn-outline-danger" onclick="window.location.href='login.jsp'">
+    <i class="bi bi-box-arrow-right"></i> Logout
+</button>
 				</div>
 
 				<!-- Dynamic Content -->

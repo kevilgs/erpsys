@@ -13,7 +13,8 @@ public class RegisterImplementation  implements RegisterInterface {
 		String result = null;
 		try {
 			CallableStatement callableStatement = db.GetConnection.getConnection().prepareCall("CALL demo_erp.Registration(?,?,?,?)");
-			callableStatement.setString(1, pojo.getMail());
+			callableStatement.setString(1,pojo.getMail());
+			System.out.println(pojo.getMail());
 			callableStatement.setString(2, pojo.getName());
 			callableStatement.setString(3, pojo.getPword());
 			callableStatement.setString(4, pojo.getRole());

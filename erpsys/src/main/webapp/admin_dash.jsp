@@ -326,7 +326,11 @@ body {
 				<div
 					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="h2">Dashboard</h1>
+					<button type="button" class="btn ms-1 btn btn-outline-danger" onclick="window.location.href='login.jsp'">
+    <i class="bi bi-box-arrow-right"></i> Logout
+</button>
 				</div>
+				
 
 <!-- Cards Section -->
 				<div class="cards-container d-flex justify-content-between mb-4">
