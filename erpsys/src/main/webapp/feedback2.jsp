@@ -26,7 +26,7 @@ body {
 
 .sidebar {
 	height: 100vh;
-	background-color: #48207d;
+	background-color: #3B1E54;
 	color: white;
 	padding-top: 20px;
 	position: fixed;
@@ -35,6 +35,7 @@ body {
 .sidebar .nav-link {
 	color: #ecf0f1;
 	transition: all 0.3s ease;
+	font-size: 16px;
 	border-radius: 5px;
 	margin-bottom: 5px;
 }
@@ -127,18 +128,28 @@ table thead, table tbody tr {
 			<nav class="col-md-3 col-lg-2 sidebar d-flex flex-column p-3">
 				<h4 class="text-center mb-4">Admin Panel</h4>
 				<ul class="nav flex-column">
+					<li class="nav-item"><a class="nav-link "
+						href="Admin_Dashboard"> <i class="bi bi-speedometer2 me-2"></i>Dashboard
+					</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="Admin_Dashboard">Dashboard</a></li>
+						href="UserManagement.jsp"> <i class="bi bi-people me-2"></i>User
+							Management
+					</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="UserManagement.jsp">User Management</a></li>
+						href="product_management.jsp"> <i class="bi bi-box-seam me-2"></i>Product
+							Management
+					</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="product_management.jsp">Product Management</a></li>
+						href="algorithm_monitoring.jsp"> <i class="bi bi-cpu me-2"></i>Algorithm
+							Management
+					</a></li>
+					<li class="nav-item"><a class="nav-link active" href="FeedbackServlet">
+							<i class="bi bi-chat-dots me-2"></i>Feedback Management
+					</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="algorithm_montioring.jsp">Algorithm Management</a></li>
-					<li class="nav-item"><a class="nav-link active"
-						href="FeedbackServlet">Feedback Management</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="Report_Generation">Report Management</a></li>
+						href="Report_Generation"> <i
+							class="bi bi-file-earmark-text me-2"></i>Report Management
+					</a></li>
 				</ul>
 			</nav>
 

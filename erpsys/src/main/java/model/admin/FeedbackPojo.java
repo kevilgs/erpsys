@@ -13,7 +13,7 @@ public class FeedbackPojo {
     private int customerId;
     private String comments;
     private int ratings;
-    private String timestamp;
+//    private String timestamp;
     
     // Getters and setters
     public int getCustomerId() {
@@ -40,13 +40,13 @@ public class FeedbackPojo {
         this.ratings = ratings;
     }
     
-    public String getTimestamp() {
-        return timestamp;
-    }
-    
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
+//    public String getTimestamp() {
+//        return timestamp;
+//    }
+//    
+//    public void setTimestamp(String timestamp) {
+//        this.timestamp = timestamp;
+//    }
     
     // Method to get all feedback
     public static List<FeedbackPojo> getAllFeedback() {
@@ -69,7 +69,7 @@ public class FeedbackPojo {
                     feedback.setCustomerId(resultSet.getInt("CustomerID"));
                     feedback.setComments(resultSet.getString("Comments"));
                     feedback.setRatings(resultSet.getInt("Ratings"));
-                    feedback.setTimestamp(resultSet.getString("Timestamp"));
+//                    feedback.setTimestamp(resultSet.getString("Timestamp"));
                     feedbackList.add(feedback);
                 }
             }

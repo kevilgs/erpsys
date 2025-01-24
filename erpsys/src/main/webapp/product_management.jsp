@@ -159,7 +159,7 @@ body {
 							Management
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="Algorithm_management.jsp"> <i class="bi bi-cpu me-2"></i>Algorithm
+						href="algorithm_monitoring.jsp"> <i class="bi bi-cpu me-2"></i>Algorithm
 							Management
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
